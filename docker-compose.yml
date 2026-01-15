@@ -1,0 +1,20 @@
+services:
+  postgres:
+    # Used Alpine version to keep the image size small and secure.
+    image: postgres:15-alpine
+    container_name: velosales-db
+    environment:
+      # Matched application.properties defaults for zero-config startup.
+      POSTGRES_DB: velosales
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: password
+    ports:
+      # Exposed standard port to localhost so IntelliJ/Java can connect.
+      - "5432:5432"
+    volumes:
+      # Persist data so it survives container restarts.
+      - postgres_data:/var/lib/postgresql/data
+
+volumes:
+  # Define a named volume for clean data management.
+  postgres_data:
