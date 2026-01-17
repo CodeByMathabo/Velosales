@@ -1,20 +1,29 @@
 services:
+  # The Java API Service
+  app:
+    build: .                             # Build from the Dockerfile in the current directory
+    container_name: velosales-app
+    ports:
+      - "8080:8080"                      # Expose the API port
+    environment:
+      - DB_HOST=postgres                 # Connects to the service named 'postgres' below
+      - DB_USERNAME=postgres
+      - DB_PASSWORD=password
+    depends_on:
+      - postgres                         # Wait for DB to start before starting the App
+
+  # The Database Service
   postgres:
-    # Used Alpine version to keep the image size small and secure.
     image: postgres:15-alpine
     container_name: velosales-db
     environment:
-      # Matched application.properties defaults for zero-config startup.
       POSTGRES_DB: velosales
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: password
     ports:
-      # Exposed standard port to localhost so IntelliJ/Java can connect.
       - "5432:5432"
     volumes:
-      # Persist data so it survives container restarts.
       - postgres_data:/var/lib/postgresql/data
 
 volumes:
-  # Define a named volume for clean data management.
   postgres_data:
