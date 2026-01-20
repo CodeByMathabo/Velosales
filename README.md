@@ -39,3 +39,39 @@ graph TD
     Service -->|ApiResponse| Controller
     Controller -->|JSON| User
 ```
+
+## How to run the application
+
+I deployed this application on **Render** so you can see it working in real-time without installing anything. 
+I also added a visual dashboard **(Swagger UI)** that allows you to click buttons to test the code.
+
+### Steps to test the app:
+
+**1. Open the Dashboard:** Go to https://velosales-app.onrender.com/swagger-ui/index.html.
+
+**2. Find the Calculator:** Look for the green bar labeled **POST /api/velocity**. Click it to open the details.
+
+**3. Start Testing:** Click the **Try it out** button on the right side.
+
+**4. Enter Test Data:** In the text box, you will see brackets **[ ]** with **"string"**. Type some made-up Product IDs inside quotes, like this: **"ITEM-101", "ITEM-102"**
+
+**5. Run:** Click the big blue **Execute** button. *Wait while loading*
+
+**6. View Results:** Scroll down slightly to the Server Response. You will see the calculation results for the items you entered **(e.g., {"ITEM-102": 0,"ITEM-101": 0})**.
+
+## Why is the result 0?
+
+   If you run the demo and see a result of **0.0** or **0**, the application is working correctly.
+
+### Here is what is happening behind the scenes:
+
+**1. Real Database:** This demo connects to a **live PostgreSQL database** on **Render**, not a fake in-memory list.
+
+**2.Fresh Start:** Since this is a fresh deployment, the database starts completely empty (no sales history).
+
+**3.The Math:** The logic asks: *"How many items were sold in the last 7 days?"*
+   * The answer is **0**. There is  no sales history yet
+
+   * Therefore, the velocity calculation is *0 sales divided by 7 days = 0.0 or 0*.
+
+*In a real-world scenario, another system **(like a Checkout App)** would be adding sales data into this database, and you would see those numbers reflected immediately.*
